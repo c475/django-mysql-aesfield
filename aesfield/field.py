@@ -34,10 +34,7 @@ class AESField(models.Field):
                 (value, self.get_aes_key())
             )
 
-            try:
-                value = c.fetchone()[0]
-            except:
-                value = None
+            value = c.fetchone()[0]
 
         return value
 
@@ -51,10 +48,7 @@ class AESField(models.Field):
                 (value, self.get_aes_key())
             )
 
-            try:
-                value = c.fetchone()[0]
-            except:
-                value = None
+            value = c.fetchone()[0]
 
         return value
 
@@ -68,10 +62,7 @@ class AESField(models.Field):
                 (value, self.get_aes_key())
             )
 
-            try:
-                value = django_connection.Database.Binary(c.fetchone()[0])
-            except:
-                value = None
+            value = django_connection.Database.Binary(c.fetchone()[0])
 
         return value
 
