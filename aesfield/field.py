@@ -41,15 +41,16 @@ class AESField(models.TextField):
         if value is None:
             return value
 
-        conn.cursor.execute(
-            'SELECT AES_DECRYPT(%s, %s)',
-            (value, self.get_aes_key())
-        )
-
-        try:
-            res = conn.cursor.fetchone()[0]
-        except:
-            res = None
+        with conn.cursor() as c:
+            c.execute(
+                'SELECT AES_DECRYPT(%s, %s)',
+                (value, self.get_aes_key())
+            )
+    
+            try:
+                res = c.fetchone()[0]
+            except:
+                res = None
             
         return res
 
