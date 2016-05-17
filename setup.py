@@ -10,9 +10,5 @@ setup(
     url='https://github.com/c475/django-mysql-aesfield',
     include_package_data=True,
     zip_safe=False,
-    packages=[
-        'aesfield',
-        'aesfield/management',
-        'aesfield/management/commands'
-    ]
+    packages=['aesfield']
 )
