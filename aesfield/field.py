@@ -7,7 +7,7 @@ class EncryptedField(Exception):
     pass
 
 
-class AESField(models.CharField):
+class AESField(models.TextField):
 
     __metaclass__ = models.SubfieldBase
 
