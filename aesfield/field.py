@@ -36,6 +36,22 @@ class AESField(models.CharField):
                 value = c.fetchone()[0]
 
         return value
+        
+    def from_db_value(self, value, exp, conn, context):
+        if value is None:
+            return value
+
+        conn.execute(
+            'SELECT AES_DECRYPT(%s, %s)',
+            (value, self.get_aes_key())
+        )
+
+        try:
+            res = conn.fetchone()[0]
+        except:
+            res = None
+            
+        return res
 
     def to_python(self, value):
         if not value:
