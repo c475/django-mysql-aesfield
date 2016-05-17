@@ -26,14 +26,14 @@ class AESField(models.CharField):
     def get_db_prep_value(self, value, connection, prepared=False):
         if not prepared and value:
 
-            cursor = connection.cursor()
+            with connection.cursor() as c:
 
-            cursor.execute(
-                'SELECT AES_ENCRYPT(%s, %s)',
-                (value, self.get_aes_key())
-            )
-
-            value = cursor.fetchone()[0]
+                c.execute(
+                    'SELECT AES_ENCRYPT(%s, %s)',
+                    (value, self.get_aes_key())
+                )
+    
+                value = c.fetchone()[0]
 
         return value
 
@@ -41,16 +41,16 @@ class AESField(models.CharField):
         if not value:
             return value
 
-        cursor = connection.cursor()
+        with connection.cursor() as c:
 
-        cursor.execute(
-            'SELECT AES_DECRYPT(%s, %s)',
-            (value, self.get_aes_key())
-        )
-
-        res = cursor.fetchone()[0]
-
-        if res:
-            value = res
+            c.execute(
+                'SELECT AES_DECRYPT(%s, %s)',
+                (value, self.get_aes_key())
+            )
+    
+            res = c.fetchone()[0]
+    
+            if res:
+                value = res
 
         return value
